@@ -32,6 +32,14 @@ def read_dataset(tgt_dataset):
     )
 
     return df
+#%% 
+for dataset_path in pth.iterdir():
+    df = read_dataset(dataset_path)
+    dsname = dataset_path.stem
+    for col in df.columns:
+        (n_permutations, hash_values, cardinality) = lazo_client.index_data(
+            df[col].to_list(), dsname, col
+        )
 
 #%%    
 dsname = "yago_seltab_wordnet_organization"
@@ -54,6 +62,16 @@ for col in df.columns:
 
 # %%
 # Querying the index
-query = df["subject"].sample(10).to_list()
-lazo_client.query_data(query)
+for col in df.columns:
+    query = df[col].sample(10000).to_list()
+    print(col, lazo_client.query_data(query))
+
+#%%
+
+
+# %%
+(n_permutations, hash_values, cardinality) = lazo_client.index_data(
+    df["subject"].to_list(), dsname, "subject"
+)
+
 # %%
