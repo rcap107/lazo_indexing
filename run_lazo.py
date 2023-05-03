@@ -75,3 +75,6 @@ for col in df.columns:
 )
 
 # %%
+# glob all parquet files in the path
+
+list(Path("data/yago3-dl/seltab/subtabs/").glob("**/*.parquet"))
